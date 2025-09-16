@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/models/order.dart';
+import '../../../core/data/orders_store.dart';
+import '../../../core/routes/routes.dart';
 
 class DashboardScreen extends StatelessWidget {
-  final List<Order> pendingOrders;
-  final VoidCallback onAddOrder;
-  final VoidCallback onOpenSalesReport;
-  final void Function(String orderId) onMarkServed;
-
-  const DashboardScreen({
-    super.key,
-    required this.pendingOrders,
-    required this.onAddOrder,
-    required this.onOpenSalesReport,
-    required this.onMarkServed,
-  });
+  const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +16,22 @@ class DashboardScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.bar_chart),
             tooltip: 'Sales Report',
-            onPressed: onOpenSalesReport,
+            onPressed: () => context.go(Routes.salesReport),
           )
         ],
       ),
-      body: pendingOrders.isEmpty
-          ? const Center(child: Text('No pending orders'))
-          : ListView.separated(
-              itemCount: pendingOrders.length,
+      body: ValueListenableBuilder<List<Order>>(
+        valueListenable: OrdersStore.instance.orders,
+        builder: (context, orders, _) {
+          final pending = orders.where((o) => !o.isServed).toList();
+          if (pending.isEmpty) {
+            return const Center(child: Text('No pending orders'));
+          }
+          return ListView.separated(
+              itemCount: pending.length,
               separatorBuilder: (_, __) => const Divider(height: 1),
               itemBuilder: (context, index) {
-                final order = pendingOrders[index];
+                final order = pending[index];
                 return ListTile(
                   leading: CircleAvatar(
                     child: Text(order.customerName.isNotEmpty
@@ -48,13 +45,15 @@ class DashboardScreen extends StatelessWidget {
                   trailing: IconButton(
                     icon: const Icon(Icons.check_circle, color: Colors.green),
                     tooltip: 'Mark served',
-                    onPressed: () => onMarkServed(order.id),
+                    onPressed: () => OrdersStore.instance.markServed(order.id),
                   ),
                 );
               },
-            ),
+            );
+        },
+      ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: onAddOrder,
+        onPressed: () => context.go(Routes.addOrder),
         icon: const Icon(Icons.add),
         label: const Text('Add Order'),
       ),

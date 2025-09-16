@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../core/models/order.dart';
+import '../../../core/data/orders_store.dart';
 
 class AddOrderScreen extends StatefulWidget {
-  final void Function(Order order) onSubmit;
-
-  const AddOrderScreen({super.key, required this.onSubmit});
+  const AddOrderScreen({super.key});
 
   @override
   State<AddOrderScreen> createState() => _AddOrderScreenState();
@@ -31,7 +30,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
       drinkType: _selectedDrink,
       specialInstructions: _instructionsController.text.trim(),
     );
-    widget.onSubmit(order);
+    OrdersStore.instance.addOrder(order);
     Navigator.of(context).pop();
   }
 
