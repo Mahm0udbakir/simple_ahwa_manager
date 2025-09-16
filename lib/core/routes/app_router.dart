@@ -8,14 +8,10 @@ import '../../features/dashboard/views/add_order_screen.dart';
 
 final appRouter = GoRouter(
   routes: [
-    ShellRoute(
-      routes: [
-        GoRoute(
-          path: Routes.dashboard,
-          builder: (context, state) => const DashboardScreen(),
-          routes: _buildSectionsRoutes(),
-        ),
-      ],
+    GoRoute(
+      path: Routes.dashboard,
+      builder: (context, state) => const DashboardScreen(),
+      routes: _buildSectionsRoutes(),
     ),
   ],
   errorBuilder: (context, state) => _buildErrorPage(context, state),
