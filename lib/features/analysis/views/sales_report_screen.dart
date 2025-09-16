@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/order.dart';
+import '../../../core/models/order.dart';
 
 class SalesReportScreen extends StatelessWidget {
   final List<Order> allOrders;

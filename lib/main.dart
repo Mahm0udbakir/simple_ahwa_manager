@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'models/order.dart';
-import 'screens/dashboard_screen.dart';
-import 'screens/add_order_screen.dart';
-import 'screens/sales_report_screen.dart';
+import 'core/models/order.dart';
+import 'features/dashboard/views/dashboard_screen.dart';
+import 'features/dashboard/views/add_order_screen.dart';
+import 'features/analysis/views/sales_report_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,10 +15,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Simple Ahwa Manager',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+
       home: const RootHome(),
     );
   }

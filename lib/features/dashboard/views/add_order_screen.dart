@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/order.dart';
+import '../../../core/models/order.dart';
 
 class AddOrderScreen extends StatefulWidget {
   final void Function(Order order) onSubmit;
