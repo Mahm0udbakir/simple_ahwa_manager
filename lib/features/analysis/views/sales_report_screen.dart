@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../core/models/order.dart';
 import '../../../core/data/orders_store.dart';
+import '../widgets/stat_card.dart';
+import '../widgets/drink_count_tile.dart';
 
 class SalesReportScreen extends StatelessWidget {
   const SalesReportScreen({super.key});
@@ -33,13 +35,7 @@ class SalesReportScreen extends StatelessWidget {
             return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Card(
-              child: ListTile(
-                leading: const Icon(Icons.check_circle, color: Colors.green),
-                title: const Text('Total Orders Served'),
-                trailing: Text('$totalServed'),
-              ),
-            ),
+            StatCard(title: 'Total Orders Served', value: '$totalServed'),
             const SizedBox(height: 16),
             const Text(
               'Top Selling Drinks',
@@ -54,9 +50,9 @@ class SalesReportScreen extends StatelessWidget {
                       separatorBuilder: (_, __) => const Divider(height: 1),
                       itemBuilder: (context, index) {
                         final entry = sorted[index];
-                        return ListTile(
-                          title: Text(entry.key.label),
-                          trailing: Text('${entry.value}'),
+                        return DrinkCountTile(
+                          label: entry.key.label,
+                          count: entry.value,
                         );
                       },
                     ),

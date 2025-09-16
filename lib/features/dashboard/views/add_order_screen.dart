@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../core/models/order.dart';
 import '../../../core/data/orders_store.dart';
+import '../widgets/labeled_text_field.dart';
+import '../widgets/drink_type_dropdown.dart';
 
 class AddOrderScreen extends StatefulWidget {
   const AddOrderScreen({super.key});
@@ -46,12 +48,9 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
           key: _formKey,
           child: ListView(
             children: [
-              TextFormField(
+              LabeledTextField(
                 controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Customer Name',
-                  border: OutlineInputBorder(),
-                ),
+                label: 'Customer Name',
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'Please enter a name';
@@ -60,35 +59,14 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                 },
               ),
               const SizedBox(height: 16),
-              InputDecorator(
-                decoration: const InputDecoration(
-                  labelText: 'Drink Type',
-                  border: OutlineInputBorder(),
-                ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<DrinkType>(
-                    value: _selectedDrink,
-                    isExpanded: true,
-                    items: DrinkType.values
-                        .map((d) => DropdownMenuItem(
-                              value: d,
-                              child: Text(d.label),
-                            ))
-                        .toList(),
-                    onChanged: (value) {
-                      if (value == null) return;
-                      setState(() => _selectedDrink = value);
-                    },
-                  ),
-                ),
+              DrinkTypeDropdown(
+                value: _selectedDrink,
+                onChanged: (d) => setState(() => _selectedDrink = d),
               ),
               const SizedBox(height: 16),
-              TextFormField(
+              LabeledTextField(
                 controller: _instructionsController,
-                decoration: const InputDecoration(
-                  labelText: 'Special Instructions',
-                  border: OutlineInputBorder(),
-                ),
+                label: 'Special Instructions',
                 minLines: 2,
                 maxLines: 4,
               ),

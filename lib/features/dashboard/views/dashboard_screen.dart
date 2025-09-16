@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/models/order.dart';
 import '../../../core/data/orders_store.dart';
 import '../../../core/routes/routes.dart';
+import '../widgets/order_list_item.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -32,21 +33,9 @@ class DashboardScreen extends StatelessWidget {
             separatorBuilder: (_, __) => const Divider(height: 1),
             itemBuilder: (context, index) {
               final order = pendingOrders[index];
-              return ListTile(
-                leading: CircleAvatar(
-                  child: Text(order.customerName.isNotEmpty
-                      ? order.customerName[0].toUpperCase()
-                      : '?'),
-                ),
-                title: Text('${order.customerName} • ${order.drinkType.label}'),
-                subtitle: order.specialInstructions.isEmpty
-                    ? null
-                    : Text(order.specialInstructions),
-                trailing: IconButton(
-                  icon: const Icon(Icons.check_circle, color: Colors.green),
-                  tooltip: 'Mark served',
-                  onPressed: () => OrdersStore.instance.markServed(order.id),
-                ),
+              return OrderListItem(
+                order: order,
+                onMarkServed: () => OrdersStore.instance.markServed(order.id),
               );
             },
           );
