@@ -52,4 +52,3 @@ Use `context.go(Routes.addOrder)` or `context.go(Routes.salesReport)` to navigat
 2. Create a feature branch: `git checkout -b feat/your-feature`
 3. Commit changes: `git commit -m "feat: add your feature"`
 4. Push and open a PR
-
